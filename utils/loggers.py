@@ -5,15 +5,15 @@ def setup_logging():
     logger = logging.getLogger(__name__)
 
     # Set the default logging level
-    logger.setLevel(logging.DEBUG)  # Change to INFO, WARNING, ERROR, or CRITICAL as needed
+    logger.setLevel(logging.DEBUG)
 
     # Create handlers
     console_handler = logging.StreamHandler()  # For logging to console
     file_handler = logging.FileHandler('app.log')  # For logging to a file
 
     # Set logging levels for handlers
-    console_handler.setLevel(logging.DEBUG)  # Console logs at DEBUG level
-    file_handler.setLevel(logging.INFO)       # File logs at INFO level
+    console_handler.setLevel(logging.DEBUG)
+    file_handler.setLevel(logging.INFO)
 
     # Create formatters and add them to the handlers
     console_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')

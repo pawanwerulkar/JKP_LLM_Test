@@ -1,9 +1,11 @@
 import os
 from operator import index
-
+import pinecone
 from openai import OpenAI
 # from langchain_pinecone import PineconeVectorStore
 from pinecone import Pinecone, ServerlessSpec, Index
+from pygame.examples.audiocapture import names
+
 import config
 from config import PINECONE_INDEX_NAME
 from langchain_pinecone import PineconeVectorStore
@@ -25,7 +27,8 @@ def get_embeddings():
 # Specify the host for the index
 index = pc.Index(PINECONE_INDEX_NAME)
 
-
+indexes = pc.list_indexes()
+print(f"Indexes: {indexes}")
 
 
 def query_pinecone(embedding, top_k=5):
@@ -37,8 +40,6 @@ def query_pinecone(embedding, top_k=5):
         top_k=100,
         include_metadata=True,
         vector=[0] * config.INDEX_DIMENSION
-
-
 
     )
     return results
@@ -58,7 +59,7 @@ def convert_to_hindi(text):
         )
         return response.choices[0].message.content
 
-def query_pinecone2(user_query):
+def query_pinecone2(user_query,index_name):
 
     documents_db = PineconeVectorStore.from_existing_index(PINECONE_INDEX_NAME,get_embeddings())
 
@@ -69,10 +70,29 @@ def query_pinecone2(user_query):
     return docs
 
 
-# from pinecone.grpc import PineconeGRPC as Pinecone
-def get_index_name():
-    # pc = Pinecone(api_key="YOUR_API_KEY")
-    index_name = pc.list_indexes()
-    print(index_name)
+def query_pinecone3(question, index_name):
+    # Query Pinecone using the provided index_name
+    # index_name = pc.list_indexes().names()
+    index = pinecone.Index(index_name)
+    print(f"Indesxes : {index}")
+    response = index.query([question], top_k=5)  # Adjust the query as needed
+    return response
 
-get_index_name()
+#test purpose only dynamic index test 2
+# from pinecone import PineconeClient
+
+# import os
+#
+# # Initialize Pinecone client
+# # pc = PineconeClient(api_key=config.PINECONE_API_KEY)
+#
+# def query_pinecone(embedding, index_name, top_k=5):
+#     """Query the Pinecone index with the given embedding."""
+#     index = pc.Index(index_name)  # Dynamically choose the index
+#     results = index.query(
+#         query_vector=embedding,
+#         top_k=top_k,
+#         include_metadata=True,
+#         vector=[0] * config.INDEX_DIMENSION  # Example, adjust as needed
+#     )
+#     return results

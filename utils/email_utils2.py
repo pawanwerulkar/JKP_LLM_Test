@@ -79,5 +79,4 @@ def send_email_with_report():
         logger.error("Failed to send email.")
         raise e
 
-# if __name__ == "__main__":
-#     send_email_with_report()
+

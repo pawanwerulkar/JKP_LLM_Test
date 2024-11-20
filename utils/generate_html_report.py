@@ -1,7 +1,7 @@
 import pandas as pd
-import os
+# import os
 
-# Function to generate the HTML report
+# This function will generate HTML file for excel-report
 def generate_html_report(excel_file, output_html_file):
     excel_data = pd.ExcelFile(excel_file)
 
@@ -33,7 +33,7 @@ def generate_html_report(excel_file, output_html_file):
 
     print(f"HTML report saved to {output_html_file}")
 
-# Example usage
-excel_file = r"report/test_report.xlsx"  #excel
-output_html_file = "report/test_report.html"  # Output HTML file path
+
+excel_file = r"report/test_report.xlsx"
+output_html_file = "report/test_report.html"
 

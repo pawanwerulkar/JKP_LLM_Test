@@ -2,79 +2,16 @@ import os
 from openpyxl import Workbook, load_workbook
 
 
-# Define the path for the report
+
 # Define the path for the report
 report_path = os.path.join(os.path.dirname(__file__), "report", r'C:\Users\test_complete\PycharmProjects\KN_LLM\report\test_report.xlsx')
 
-# Ensure the report directory exists
+# # Ensure the report directory exists
 report_dir = os.path.dirname(report_path)
-# if not os.path.exists(report_dir):
-#     os.makedirs(report_dir)
-#     print(f"Created report directory: {report_dir}")
 
-# def get_or_create_report():
-#     # Ensure the report directory exists
-#     if not os.path.exists(report_dir):
-#         os.makedirs(report_dir)
-#         print(f"Created report directory: {report_dir}")
-#
-#     # Check if the report file exists, if not, create it
-#     if not os.path.exists(report_path):
-#         wb = Workbook()
-#
-#         # Test Results Sheet
-#         ws = wb.active
-#         ws.title = "Test Results"
-#         headers = [
-#             "Question", "Response Video Title", "Response Text", "Response Video",
-#             "Response Snippet Start", "Response Snippet End",
-#             "Ground Truth Video Title", "Ground Truth Text", "Ground Truth Video",
-#             "Ground Truth Snippet Start", "Ground Truth Snippet End", "Result"
-#         ]
-#         ws.append(headers)
-#
-#         # Metrics Sheet
-#         ws_metrics = wb.create_sheet(title="Metrics")
-#         ws_metrics.append(["Index", "Search Retrieval Method", "Accuracy"])
-#
-#         # Summary Sheet
-#         ws_summary = wb.create_sheet(title="Summary")
-#         ws_summary.append(["Total Test Cases", "Passed Test Cases", "Failed Test Cases", "Pass Percentage"])
-#
-#         # Average Accuracy Sheet
-#         ws_avg_accuracy = wb.create_sheet(title="Average Accuracy")
-#         ws_avg_accuracy.append(["Model Name", "Average Accuracy (%)"])
-#
-#         wb.save(report_path)  # Save the workbook immediately after creation
-#         print(f"Created new report: {report_path}")
-#     else:
-#         # If report exists, load the workbook and ensure the necessary sheets exist
-#         wb = load_workbook(report_path)
-#
-#         # Ensure essential sheets exist
-#         if "Metrics" not in wb.sheetnames:
-#             ws_metrics = wb.create_sheet("Metrics")
-#             ws_metrics.append(["Index", "Search Retrieval Method", "Accuracy"])
-#
-#         if "Summary" not in wb.sheetnames:
-#             ws_summary = wb.create_sheet("Summary")
-#             ws_summary.append(["Total Test Cases", "Passed Test Cases", "Failed Test Cases", "Pass Percentage"])
-#
-#         if "Average Accuracy" not in wb.sheetnames:
-#             ws_avg_accuracy = wb.create_sheet("Average Accuracy")
-#             ws_avg_accuracy.append(["Model Name", "Average Accuracy (%)"])
-#
-#         wb.save(report_path)  # Save after ensuring all sheets exist
-#
-#     return wb
 
-import os
-from openpyxl import Workbook, load_workbook
 
-_workbook_instance = None
 
-from openpyxl import Workbook, load_workbook
-import os
 
 _workbook_instance = None  # Global variable for workbook instance
 
@@ -96,7 +33,7 @@ def get_or_create_report():
             # Create Test Results sheet with headers
             ws_results = _workbook_instance.create_sheet("Test Results", 0)
             ws_results.append([
-                "Question", "Response Video Title", "Response Text",
+                "Question","Index Name", "Response Video Title", "Response Text",
                 "Response Video", "Response Snippet Start",
                 "Response Snippet End", "Ground Truth Video Title",
                 "Ground Truth Text", "Ground Truth Video",
@@ -117,24 +54,24 @@ def get_or_create_report():
     return _workbook_instance
 
 
-def calculate_and_save_summary():
-    wb = load_workbook(report_path)
-    ws_results = wb["Test Results"]
-    ws_summary = wb["Summary"]
-
-    total_tests = passed_tests = failed_tests = 0
-    for row in ws_results.iter_rows(min_row=2, values_only=True):
-        total_tests += 1
-        if row[-1].lower() == "pass":
-            passed_tests += 1
-        else:
-            failed_tests += 1
-
-    pass_percentage = (passed_tests / total_tests) * 100 if total_tests else 0
-    ws_summary.append([total_tests, passed_tests, failed_tests, f"{pass_percentage:.2f}%"])
-
-    wb.save(report_path)  # Save after updating summary
-    print("Summary saved in 'Summary' sheet.")
+# def calculate_and_save_summary():
+#     wb = load_workbook(report_path)
+#     ws_results = wb["Test Results"]
+#     ws_summary = wb["Summary"]
+#
+#     total_tests = passed_tests = failed_tests = 0
+#     for row in ws_results.iter_rows(min_row=2, values_only=True):
+#         total_tests += 1
+#         if row[-1].lower() == "pass":
+#             passed_tests += 1
+#         else:
+#             failed_tests += 1
+#
+#     pass_percentage = (passed_tests / total_tests) * 100 if total_tests else 0
+#     ws_summary.append([total_tests, passed_tests, failed_tests, f"{pass_percentage:.2f}%"])
+#
+#     wb.save(report_path)  # Save after updating summary
+#     print("Summary saved in 'Summary' sheet.")
 
 # def calculate_and_save_average_accuracy():
 #     wb = load_workbook(report_path)
