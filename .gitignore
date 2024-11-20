@@ -2,7 +2,7 @@ new_test
 .venv
 .env
 test_cases/venv
-config.py
+/config.py
 venv
 test_cases/test_basic-kn_index1.py
 test_cases/test_basic_kn_index2.py
