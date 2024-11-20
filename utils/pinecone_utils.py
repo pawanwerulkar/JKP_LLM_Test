@@ -4,7 +4,7 @@ import pinecone
 from openai import OpenAI
 # from langchain_pinecone import PineconeVectorStore
 from pinecone import Pinecone, ServerlessSpec, Index
-from pygame.examples.audiocapture import names
+# from pygame.examples.audiocapture import names
 
 import config
 from config import PINECONE_INDEX_NAME
