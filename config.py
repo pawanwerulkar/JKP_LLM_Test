@@ -7,10 +7,10 @@ load_dotenv()
 
 # API configuration
 # Open_BASE_URL = "http://13.233.245.126/"
-OPEN_API_KEY = "sk-proj-Q7nvJ3FBJMbUQFQhu33fT3BlbkFJlLeV7C3Xpxp2B1fWmsNy"
+OPEN_API_KEY = "*********************************"
 
 # # Pinecone configuration
 # PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 # PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "basic-kn-index")
-PINECONE_API_KEY = os.getenv("PINECONE_API_KEY", "1606b7c2-95de-4c1c-a6d5-49e648b43441")
+PINECONE_API_KEY = os.getenv("PINECONE_API_KEY", "******************************")
 PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "basic-kn-index")
