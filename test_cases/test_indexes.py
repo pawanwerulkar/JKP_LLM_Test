@@ -7,10 +7,11 @@ import pytest
 import pinecone
 from pinecone import Pinecone
 
+from utils.email_utils2 import send_email_with_report
 from utils.generate_html_report import generate_html_report, excel_file, output_html_file
 from utils.pinecone_utils import query_pinecone2
 from utils.utils import generate_embedding, check_overlap, check_time_matching
-from utils.report_utils import get_or_create_report, calculate_and_save_summary
+from utils.report_utils import get_or_create_report, calculate_and_save_summary, current_date
 from utils.report_utils import calculate_and_save_average_accuracy, calculate_accuracy
 from openpyxl import load_workbook
 import os
@@ -22,7 +23,7 @@ with open(data_file_path, 'r', encoding='utf-8') as f:
     test_data = json.load(f)
 
 # Path for the report
-report_path = r"report/test_report.xlsx"
+report_path = fr"report/test_report_{current_date}.xlsx"
 wb = get_or_create_report()
 ws = wb["Test Results"]
 ws_metrics = wb["Metrics"]
@@ -160,9 +161,11 @@ def after_all_tests():
     """This fixture runs after all tests are executed and then calls the function to calculate and save average accuracy."""
     yield
 
-    # calculate_and_save_average_accuracy()
-    # calculate_and_save_summary()
-    # generate_html_report(excel_file=excel_file,output_html_file=output_html_file)
+    calculate_and_save_average_accuracy()
+    calculate_and_save_summary()
+    generate_html_report(excel_file=excel_file,output_html_file=output_html_file)
+    # save_report_date()
+    #send_email_with_report()
 
 
 

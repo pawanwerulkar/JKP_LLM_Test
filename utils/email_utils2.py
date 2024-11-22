@@ -14,7 +14,7 @@ def send_email_with_report():
     report_path = os.getenv("REPORT_PATH", r"C:\Users\test_complete\PycharmProjects\KN_LLM\report\test_report.html")  # Adjust this default path as needed
     sender_email = os.getenv("SENDER_EMAIL", "pawanwerulkar1995@gmail.com")  # Add a default for testing
     # receiver_email = os.getenv("RECEIVER_EMAILS", "udgam.goyal10@gmail.com,naveen@jkp.org.in,pawanwerulkar1995@gmail.com,sachin.singh@subtlelabs.com,deepak.jain@subtlelabs.com").split(',')
-    receiver_email = os.getenv("RECEIVER_EMAILS", "pawanwerulkar1995@gmail.com,sachin.singh@subtlelabs.com").split(',')
+    receiver_email = os.getenv("RECEIVER_EMAILS", "pawanwerulkar1995@gmail.com,shravanmurali@gmail.com").split(',')
 
     password = os.getenv("EMAIL_PASSWORD", "izwl jjuh rqyj tbun")  # Add a default for testing
     #deepak.jain@subtlelabs.com,,udgam.goyal10@gmail.com,naveen@jkp.org.in
@@ -80,3 +80,4 @@ def send_email_with_report():
         raise e
 
 
+# send_email_with_report()

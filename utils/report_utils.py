@@ -1,13 +1,23 @@
 import os
+from os.path import basename
+
 from openpyxl import Workbook, load_workbook
 
+from datetime import datetime
 
+current_date = datetime.now().strftime('%y-%m-%d')
+# basename,extension = os.pat.splittext()
 
 # Define the path for the report
-report_path = os.path.join(os.path.dirname(__file__), "report", r'C:\Users\test_complete\PycharmProjects\KN_LLM\report\test_report.xlsx')
+report_path = os.path.join(os.path.dirname(__file__), "report", fr'C:\Users\test_complete\PycharmProjects\KN_LLM\report\test_report_{current_date}.xlsx')
 
 # # Ensure the report directory exists
-report_dir = os.path.dirname(report_path)
+# def test_remove_file():
+#     report_dir = os.path.dirname(report_path)
+#     os.remove(report_path)
+#     print("excel removed!")
+#     os.remove("report/test_report.html")
+#     print("html removed")
 
 
 
@@ -19,7 +29,7 @@ _workbook_instance = None  # Global variable for workbook instance
 def get_or_create_report():
     global _workbook_instance
     report_dir = "report"
-    report_path = os.path.join(report_dir, "test_report.xlsx")
+    report_path = os.path.join(report_dir, f"test_report_{current_date}.xlsx")
 
     # Ensure the report directory exists
     if not os.path.exists(report_dir):
@@ -159,8 +169,13 @@ def calculate_accuracy(expected_snippet, actual_snippet):
 # get_or_create_report()  # This will ensure the report and directory are created if not present.
 # calculate_and_save_summary()  # This will calculate and append the summary to the report.
 # calculate_and_save_average_accuracy()  # This will calculate and append average accuracy to the report.
-
+# from datetime import datetime
 def calculate_and_save_average_accuracy():
+    # Get today's date and format it as YYYY-MM-DD
+    # current_date = datetime.now().strftime("%Y-%m-%d")
+    #
+    # # Define the report filename with the current date
+    # report_path = f"test_report_{current_date}.xlsx"
     wb = load_workbook(report_path)
     ws_metrics = wb["Metrics"]
 
@@ -191,3 +206,23 @@ def calculate_and_save_average_accuracy():
 
     wb.save(report_path)  # Save the updated workbook
     print("Average accuracies saved for each module.")
+
+# def save_report_date():
+#     report_path = r'C:\Users\test_complete\PycharmProjects\KN_LLM\report\test_report.xlsx'
+#
+#     # if not os._exists(report_path):
+#     #     print("specified report is not present on the location.")
+#     wb = load_workbook(report_path)
+#     current_date = datetime.now().strftime('%y-%m-%d')
+#
+#     basename, extension = os.path.splitext(report_path)
+#
+#     new_report_name = f"test_report_{current_date}{extension}"
+#     print(f"report saved successfully {new_report_name}")
+#     report_path_split = report_path.split("\\")
+#     report_path_split[-1] = new_report_name
+#     report_path = '\\'.join(report_path_split)
+#     wb.save(report_path)
+#
+#
+#     return new_report_name

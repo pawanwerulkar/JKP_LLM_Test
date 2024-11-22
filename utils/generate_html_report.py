@@ -1,5 +1,6 @@
 import pandas as pd
 # import os
+from utils.report_utils import current_date, report_path
 
 # This function will generate HTML file for excel-report
 def generate_html_report(excel_file, output_html_file):
@@ -10,7 +11,7 @@ def generate_html_report(excel_file, output_html_file):
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>Excel Report</title>
+        <title>KN Test Report</title>
     </head>
     <body>
         <h1>Excel Report</h1>
@@ -34,6 +35,6 @@ def generate_html_report(excel_file, output_html_file):
     print(f"HTML report saved to {output_html_file}")
 
 
-excel_file = r"report/test_report.xlsx"
-output_html_file = "report/test_report.html"
+excel_file = fr"report/test_report_{current_date}.xlsx"
+output_html_file = f"report/test_report_{current_date}.html"
 
