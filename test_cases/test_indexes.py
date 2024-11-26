@@ -33,14 +33,14 @@ pc = Pinecone(api_key=config.PINECONE_API_KEY)
 
 
 
-# # Retrieve the list of index names
+# Retrieve the list of index names
 index_name = pc.list_indexes().names()
 print("Indexes:", index_name)
 
 
 @pytest.mark.parametrize("data", test_data)
 @pytest.mark.parametrize("index_name", index_name)
-def test_pinecone_search_response(data, index_name):
+def test_pinecone_search_response(data,index_name):
     print(f"Running test for question: {data['question']} on index: {index_name}")
 
     question = data["question"]

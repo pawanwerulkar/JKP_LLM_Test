@@ -4,6 +4,6 @@ new_test
 test_cases/venv
 /config.py
 venv
-test_cases/test_basic-kn_index1.py
-test_cases/test_basic_kn_index2.py
-test_cases/test_dynamic_indexes2.py
+new_test/test_basic-kn_index1.py
+new_test/test_basic_kn_index2.py
+new_test/test_dynamic_indexes2.py
