@@ -5,9 +5,9 @@ from openai import OpenAI
 # from langchain_pinecone import PineconeVectorStore
 from pinecone import Pinecone, ServerlessSpec, Index
 # from pygame.examples.audiocapture import names
-
+# from dotenv import load_dotenv
 import config
-from config import PINECONE_INDEX_NAME
+# from config import PINECONE_INDEX_NAME
 from langchain_pinecone import PineconeVectorStore
 # Initialize Pinecone with the provided API key
 pc = Pinecone(api_key=config.PINECONE_API_KEY)
@@ -25,7 +25,7 @@ def get_embeddings():
 
 # Access the index using the Index class
 # Specify the host for the index
-index = pc.Index(PINECONE_INDEX_NAME)
+index = pc.Index(config.PINECONE_INDEX_NAME)
 
 indexes = pc.list_indexes()
 print(f"Indexes: {indexes}")
@@ -61,7 +61,7 @@ def convert_to_hindi(text):
 
 def query_pinecone2(user_query,index_name):
 
-    documents_db = PineconeVectorStore.from_existing_index(PINECONE_INDEX_NAME,get_embeddings())
+    documents_db = PineconeVectorStore.from_existing_index(config.PINECONE_INDEX_NAME,get_embeddings())
 
     llm_output = convert_to_hindi(user_query)
     docs = documents_db.similarity_search(llm_output)

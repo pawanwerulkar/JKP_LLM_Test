@@ -171,11 +171,7 @@ def calculate_accuracy(expected_snippet, actual_snippet):
 # calculate_and_save_average_accuracy()  # This will calculate and append average accuracy to the report.
 # from datetime import datetime
 def calculate_and_save_average_accuracy():
-    # Get today's date and format it as YYYY-MM-DD
-    # current_date = datetime.now().strftime("%Y-%m-%d")
-    #
-    # # Define the report filename with the current date
-    # report_path = f"test_report_{current_date}.xlsx"
+
     wb = load_workbook(report_path)
     ws_metrics = wb["Metrics"]
 
