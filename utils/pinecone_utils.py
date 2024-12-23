@@ -1,6 +1,7 @@
 import os
 from operator import index
 import pinecone
+import openai
 from openai import OpenAI
 # from langchain_pinecone import PineconeVectorStore
 from pinecone import Pinecone, ServerlessSpec, Index
@@ -37,7 +38,7 @@ def query_pinecone(embedding, top_k=5):
     results = index.query(
         query_vector=embedding,  # Use query_vector for the embedding
         # top_k=top_k,
-        top_k=100,
+        top_k=5,
         include_metadata=True,
         vector=[0] * config.INDEX_DIMENSION
 
@@ -46,28 +47,38 @@ def query_pinecone(embedding, top_k=5):
 
 
 client = OpenAI()
+
+
 def convert_to_hindi(text):
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "Respond only with the hindi writing of the given text.",
-                },
-                {"role": "user", "content": f"{text}"},
-            ],
-        )
-        return response.choices[0].message.content
+    """translate english search query string to hindi string"""
+
+    prompt = "Translate the text in brackets to Hindi in Hindi script and respond only with the translation"
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {
+                "role": "system",
+                "content": prompt,
+            },
+            {"role": "user", "content": "{" + f"{text}" + "}"},
+        ],
+    )
+    return response.choices[0].message.content
 
 def query_pinecone2(user_query,index_name):
 
     documents_db = PineconeVectorStore.from_existing_index(config.PINECONE_INDEX_NAME,get_embeddings())
 
     llm_output = convert_to_hindi(user_query)
-    docs = documents_db.similarity_search(llm_output)
+    # docs = documents_db.similarity_search(llm_output)
+    docs =documents_db.similarity_search_with_score(llm_output,k=5)
 
 
     return docs
+    # document_db = index.query(vector=user_query,top_k=5,include_metadata=True)
+    # llm_output = convert_to_hindi(user_query)
+    # docs = document_db.similarity_search(llm_output)
+    # return docs
 
 
 def query_pinecone3(question, index_name):
@@ -96,3 +107,32 @@ def query_pinecone3(question, index_name):
 #         vector=[0] * config.INDEX_DIMENSION  # Example, adjust as needed
 #     )
 #     return results
+
+# openai.api_key = config.OPENAI_API_KEY
+# import openai  # Assuming you're using OpenAI API
+
+
+# Function to query LLM and get the score
+# def get_llm_response(question, response_text):
+#     try:
+#         # Construct your prompt
+#         prompt = f"Grade the following response from 0-10 based on the question here and respond with a number between 0.0 and 10.0: {question} {response_text}"
+#
+#         # Call the new OpenAI API method
+#         response = openai.chat.Completion.create(
+#             model="gpt-3.5-turbo",  # Or use "gpt-4" if you have access
+#             messages=[
+#                 {"role": "system", "content": "You are a helpful assistant."},
+#                 {"role": "user", "content": prompt}
+#             ]
+#         )
+#
+#         # Extract the LLM response
+#         llm_response = response['choices'][0]['message']['content']
+#         return llm_response
+#     except Exception as e:
+#         print(f"Error getting LLM response: {e}")
+#         return None
+
+
+

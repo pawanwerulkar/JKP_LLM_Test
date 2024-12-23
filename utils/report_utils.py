@@ -2,25 +2,14 @@ import os
 from os.path import basename
 
 from openpyxl import Workbook, load_workbook
+# from utils.filename_utils import report_path
+# from datetime import datetime
 
-from datetime import datetime
-
-current_date = datetime.now().strftime('%y-%m-%d')
+# current_date = datetime.now().strftime('%y-%m-%d')
 # basename,extension = os.pat.splittext()
 
 # Define the path for the report
-report_path = os.path.join(os.path.dirname(__file__), "report", fr'C:\Users\test_complete\PycharmProjects\KN_LLM\report\test_report_{current_date}.xlsx')
-
-# # Ensure the report directory exists
-# def test_remove_file():
-#     report_dir = os.path.dirname(report_path)
-#     os.remove(report_path)
-#     print("excel removed!")
-#     os.remove("report/test_report.html")
-#     print("html removed")
-
-
-
+report_path = os.path.join(os.path.dirname(__file__), "report", r'C:\Users\test_complete\PycharmProjects\KN_LLM\report\test_report.xlsx')
 
 
 _workbook_instance = None  # Global variable for workbook instance
@@ -29,7 +18,7 @@ _workbook_instance = None  # Global variable for workbook instance
 def get_or_create_report():
     global _workbook_instance
     report_dir = "report"
-    report_path = os.path.join(report_dir, f"test_report_{current_date}.xlsx")
+    report_path = os.path.join(report_dir, "test_report.xlsx")
 
     # Ensure the report directory exists
     if not os.path.exists(report_dir):
@@ -43,17 +32,21 @@ def get_or_create_report():
             # Create Test Results sheet with headers
             ws_results = _workbook_instance.create_sheet("Test Results", 0)
             ws_results.append([
-                "Question","Index Name", "Response Video Title", "Response Text",
+                "Category","Question","Index Name", "Response Video Title", "Response Text",
                 "Response Video", "Response Snippet Start",
                 "Response Snippet End", "Ground Truth Video Title",
                 "Ground Truth Text", "Ground Truth Video",
-                "Ground Truth Snippet Start", "Ground Truth Snippet End",
-                "Result"
+                "Ground Truth Snippet Start", "Ground Truth Snippet End","Similarity Score","LLM Response",
+                "Result","Detail Response"
             ])
 
             # Create Metrics sheet with headers
             ws_metrics = _workbook_instance.create_sheet("Metrics", 1)
             ws_metrics.append(["Model", "Metric Type", "Accuracy"])
+
+            # #Create Deep dive sheet with headers
+            # ws_deep_dive = _workbook_instance.create_sheet("Deep_Dive",1)
+            # ws_deep_dive.append(["Question Category","Question","Result","LLM Score","Top Similarity Score","Response Text","Video Title","Start To End TS","Link"])
 
             # Remove default sheet created by Workbook()
             if "Sheet" in _workbook_instance.sheetnames:
@@ -116,7 +109,7 @@ def calculate_and_save_summary():
     # Iterate over test results to calculate summary
     for row in ws_results.iter_rows(min_row=2, values_only=True):
         total_tests += 1
-        if row[-1].lower() == "pass":
+        if row[-1] == "Pass":
             passed_tests += 1
         else:
             failed_tests += 1
@@ -175,12 +168,12 @@ def calculate_and_save_average_accuracy():
     wb = load_workbook(report_path)
     ws_metrics = wb["Metrics"]
 
-    # Check or create 'Average Accuracy' sheet
-    if "Average Accuracy" not in wb.sheetnames:
-        ws_avg_accuracy = wb.create_sheet("Average Accuracy")
-        ws_avg_accuracy.append(["Module", "Average Accuracy"])
+    # Check or create 'Test Report Structure (Overall)' sheet
+    if "Test Report Structure (Overall)" not in wb.sheetnames:
+        ws_avg_accuracy = wb.create_sheet("Test Report Structure (Overall)")
+        ws_avg_accuracy.append(["Module", "Test Report Structure (Overall)"])
     else:
-        ws_avg_accuracy = wb["Average Accuracy"]
+        ws_avg_accuracy = wb["Test Report Structure (Overall)"]
 
     module_accuracies = {}
 

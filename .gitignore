@@ -7,3 +7,5 @@ venv
 new_test/test_basic-kn_index1.py
 new_test/test_basic_kn_index2.py
 new_test/test_dynamic_indexes2.py
+configgoogle.json
+report
